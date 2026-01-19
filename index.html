@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Snollers Galleri specialiserer sig i garnkunst, akustiske elementer og håndlavede unikke stykker">
+    <title>Snollers Galleri - Håndlavet Kunst</title>
+
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        /* ==========================================
+           BASE STYLES
+           ========================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: "Georgia", serif;
+            background-color: #fafafa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* ==========================================
+           LOADING ANIMATION
+           ========================================== */
+        .loader-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .loader {
+            border: 16px solid #f3f3f3;
+            border-top: 16px solid #3498db;
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* ==========================================
+           NAVIGATION
+           ========================================== */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 100;
+            text-align: center;
+        }
+
+        nav ul {
+            list-style: none;
+        }
+
+        nav ul li {
+            display: inline-block;
+        }
+
+        nav ul li a {
+            display: block;
+            padding: 20px;
+            color: #fff;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* ==========================================
+           HEADER / HERO SECTION
+           ========================================== */
+        header {
+            height: 100vh;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url("images/Hero18.jpg");
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        header h1 {
+            color: #ffffff;
+            padding: 30px 50px;
+            font-size: 3rem;
+            letter-spacing: 3px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+            transition: transform 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        header h1:hover {
+            transform: translateY(-5px);
+            text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.9);
+        }
+
+        /* ==========================================
+           SECTION LAYOUT
+           ========================================== */
+        section {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 80px 20px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: 2.2rem;
+            position: relative;
+            padding-bottom: 15px;
+            color: #2F4F4F;
+        }
+
+        /* Decorative underline for section headings */
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background-color: #2F4F4F;
+        }
+
+        /* ==========================================
+           GALLERY SECTION
+           ========================================== */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .gallery img {
+            width: 100%;
+            height: 300px;
+            border-radius: 8px;
+            object-fit: cover;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: pointer;
+            will-change: transform;
+        }
+
+        .gallery img:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        /* ==========================================
+           PROCESS SECTION
+           ========================================== */
+        .process {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            align-items: center;
+        }
+
+        .process-text p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            color: #555;
+        }
+
+        .process img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* ==========================================
+           SERVICES SECTION
+           ========================================== */
+        .services {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            text-align: center;
+        }
+
+        .service {
+            background-color: #f5f5f5;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .service:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .service h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #2F4F4F;
+        }
+
+        .service p {
+            font-size: 1.1rem;
+            color: #555;
+        }
+
+        /* ==========================================
+           ABOUT ME SECTION
+           ========================================== */
+        .about-me {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .about-me img {
+            width: 100%;
+            border-radius: 50%;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .about-me-text h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #2F4F4F;
+        }
+
+        .about-me-text p {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        /* ==========================================
+           TESTIMONIALS SECTION
+           ========================================== */
+        .testimonials {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .testimonial {
+            background-color: #f5f5f5;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .testimonial p {
+            font-size: 1.1rem;
+            color: #555;
+            font-style: italic;
+        }
+
+        .testimonial footer {
+            margin-top: 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* ==========================================
+           CONTACT SECTION
+           ========================================== */
+        .contact {
+            text-align: center;
+            background-color: #f5f5f5;
+            padding: 80px 20px;
+            border-radius: 8px;
+        }
+
+        .contact p {
+            font-size: 1.15rem;
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .contact-info {
+            margin-top: 30px;
+        }
+
+        .contact-info strong {
+            color: #333;
+            font-size: 1.1rem;
+        }
+
+        .contact-info a {
+            color: #333;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-info a:hover {
+            color: #666;
+            text-decoration: underline;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            display: grid;
+            gap: 20px;
+        }
+
+        form input,
+        form textarea {
+            width: 100%;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-family: "Georgia", serif;
+        }
+
+        form button {
+            background-color: #333;
+            color: #fff;
+            padding: 15px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        form button:hover {
+            background-color: #555;
+        }
+
+        /* ==========================================
+           FOOTER
+           ========================================== */
+        footer {
+            background-color: #e8e8e8;
+            text-align: center;
+            padding: 25px;
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 40px;
+        }
+
+        /* ==========================================
+           BACK TO TOP BUTTON
+           ========================================== */
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            display: none;
+            z-index: 100;
+        }
+
+        .back-to-top.show {
+            display: block;
+        }
+
+        /* ==========================================
+           RESPONSIVE DESIGN
+           ========================================== */
+        @media (max-width: 768px) {
+            nav {
+                display: none;
+            }
+
+            header h1 {
+                font-size: 2rem;
+                padding: 20px 30px;
+                letter-spacing: 2px;
+            }
+
+            h2 {
+                font-size: 1.8rem;
+            }
+
+            section {
+                padding: 60px 15px;
+            }
+
+            .gallery {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+
+            .gallery img {
+                height: 250px;
+            }
+
+            .process img {
+                height: 300px;
+            }
+
+            .about-me {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .about-me img {
+                width: 50%;
+                margin: 0 auto 30px;
+            }
+
+            .testimonials {
+                gap: 15px;
+            }
+
+            .services {
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.5rem;
+                padding: 15px 25px;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ==========================================
+         LOADING ANIMATION
+         ========================================== -->
+    <div class="loader-wrapper" id="loader-wrapper">
+        <div class="loader"></div>
+    </div>
+
+    <!-- ==========================================
+         NAVIGATION
+         ========================================== -->
+    <nav>
+        <ul>
+            <li><a href="#work">Værker</a></li>
+            <li><a href="#process">Proces</a></li>
+            <li><a href="#services">Ydelser</a></li>
+            <li><a href="#about">Om mig</a></li>
+            <li><a href="#testimonials">Anmeldelser</a></li>
+            <li><a href="#contact">Kontakt</a></li>
+        </ul>
+    </nav>
+
+    <!-- ==========================================
+         HERO HEADER
+         ========================================== -->
+    <header>
+        <h1>Snollers Galleri</h1>
+    </header>
+
+    <!-- ==========================================
+         GALLERY SECTION
+         ========================================== -->
+    <section id="work">
+        <h2>Mine Værker</h2>
+        <div class="gallery">
+            <img src="images/Hero49.jpg" alt="Håndlavet garnkunst">
+            <img src="images/Hero51.jpg" alt="Akustisk kunstinstallation">
+            <img src="images/Hero32.jpg" alt="Håndlavet tekstureret kunstværk">
+            <img src="images/Hero1.jpg" alt="Kreativt detalje nærbillede">
+            <img src="images/Hero41.jpg" alt="Garn og træ kombination">
+            <img src="images/Hero38.jpg" alt="Lydkunst kreation">
+        </div>
+    </section>
+
+    <!-- ==========================================
+         PROCESS SECTION
+         ========================================== -->
+    <section id="process">
+        <h2>Processen</h2>
+        <div class="process">
+            <div class="process-text">
+                <p>
+                    Hvert stykke begynder med en simpel idé – en tekstur, en lyd, en følelse.
+                    Jeg arbejder langsomt og intuitivt, kombinerer garn, træ og akustiske elementer
+                    for at skabe kunst, der kan mærkes lige så meget som den kan ses.
+                </p>
+                <p>
+                    Ingen to stykker er ens. Ufuldkommenhed er en del af skønheden.
+                </p>
+            </div>
+            <img src="images/Hero19.jpg" alt="Kunstner i gang med et værk i studiet">
+        </div>
+    </section>
+
+    <!-- ==========================================
+         SERVICES SECTION
+         ========================================== -->
+    <section id="services">
+        <h2>Hvad Jeg Laver</h2>
+        <div class="services">
+            <div class="service">
+                <h3>Garnkunst</h3>
+                <p>
+                    Specialfremstillede garnkunstværker til dit hjem eller kontor.
+                    Hvert stykke er unikt og lavet med materialer af høj kvalitet.
+                </p>
+            </div>
+            <div class="service">
+                <h3>Akustiske Elementer</h3>
+                <p>
+                    Funktionel kunst der forbedrer akustikken i dit rum.
+                    Perfekt til studier, kontorer og hjem.
+                </p>
+            </div>
+            <div class="service">
+                <h3>Håndlavede Værker</h3>
+                <p>
+                    Unikke håndlavede stykker der tilføjer et personligt præg til ethvert rum.
+                    Lavet med kærlighed og omhu for detaljer.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         ABOUT ME SECTION
+         ========================================== -->
+    <section id="about">
+        <h2>Om Mig</h2>
+        <div class="about-me">
+            <img src="images/Hero28.jpg" alt="Et billede af kunstneren">
+            <div class="about-me-text">
+                <h3>Hej, jeg hedder Alma</h3>
+                <p>
+                    Jeg er en passioneret kunstner med en kærlighed til tekstiler og lyd.
+                    Mit arbejde er en afspejling af min overbevisning om, at kunst skal være både smuk og funktionel.
+                    Jeg startede Snollers Galleri for at dele min passion med verden og skabe unikke stykker, der bringer glæde til andre.
+                </p>
+                <p>
+                    Når jeg ikke er i mit studie, kan du finde mig ude i naturen, som er en stor kilde til inspiration for mit arbejde.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         TESTIMONIALS SECTION
+         ========================================== -->
+    <section id="testimonials">
+        <h2>Hvad Folk Siger</h2>
+        <div class="testimonials">
+            <div class="testimonial">
+                <p>"Det stykke jeg bestilte er helt fantastisk. Det har totalt forvandlet min stue."</p>
+                <footer>- Jane Doe</footer>
+            </div>
+            <div class="testimonial">
+                <p>"Jeg elsker mit nye akustiske panel. Det er både smukt og funktionelt. Jeg kan ikke anbefale Snollers Galleri nok."</p>
+                <footer>- John Smith</footer>
+            </div>
+            <div class="testimonial">
+                <p>"Opmærksomheden på detaljer er utrolig. Man kan se, at der er lagt meget kærlighed og omhu i at skabe mit stykke."</p>
+                <footer>- Emily Jones</footer>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         CONTACT SECTION
+         ========================================== -->
+    <section id="contact" class="contact">
+        <h2>Kontakt</h2>
+        <p>
+            Interesseret i mit arbejde eller et samarbejde? Udfyld formularen nedenfor.
+        </p>
+        <form action="#" method="POST">
+            <input type="text" name="name" placeholder="Dit Navn" required>
+            <input type="email" name="email" placeholder="Din Email" required>
+            <textarea name="message" placeholder="Din Besked" required></textarea>
+            <button type="submit">Send Besked</button>
+        </form>
+        <div class="contact-info">
+            <p>
+                Email: <strong><a href="mailto:AlmaBS2006@iCloud.com">Almabs2006@iCloud.com</a></strong>
+            </p>
+            <p>
+                Instagram: <strong><a href="https://instagram.com/snoller06" target="_blank" rel="noopener">@Snoller06</a></strong>
+            </p>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         FOOTER
+         ========================================== -->
+    <footer>
+        © 2026 • Håndlavet med kærlighed
+    </footer>
+
+    <!-- ==========================================
+         TILBAGE TIL TOP KNAP
+         ========================================== -->
+    <a href="#" class="back-to-top" id="back-to-top">Top</a>
+
+    <script>
+        const backToTop = document.getElementById('back-to-top');
+        const loaderWrapper = document.getElementById('loader-wrapper');
+
+        window.addEventListener('load', () => {
+            loaderWrapper.style.display = 'none';
+        });
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTop.classList.add('show');
+            } else {
+                backToTop.classList.remove('show');
+            }
+        });
+    </script>
+</body>
+</html>
